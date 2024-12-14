@@ -92,7 +92,7 @@ const EmblaCarousel = (props) => {
   }, [emblaApi, tweenScale, onSlideChange]);
 
   return (
-    <div className="embla">
+    <div className="embla view">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((img, index) => (

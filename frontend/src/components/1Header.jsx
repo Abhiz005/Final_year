@@ -1,18 +1,27 @@
-import React, { useState } from "react";
-import SearchIcon from "./3SearchIcon";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useAuthStore } from "../components/store/authStore";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("");
+  const { isAuthenticated, logout } = useAuthStore();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleLinkClick = (linkName) => {
-    setActiveLink(linkName);
-    // You can add additional logic here if needed
+  const handleLogout = () => {
+    logout(); // Perform logout action
   };
+
+  const handleLoginRedirect = () => {
+    window.location.href = "/login"; // Redirect to login page
+  };
+
+  useEffect(() => {
+    // This effect ensures that if the user is logged out, the menu will reflect the "Login" button
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -33,22 +42,26 @@ const Header = () => {
           </div>
         </nav>
       </header>
+
       <div className={`navbar1 ${menuOpen ? "show" : ""}`}>
         <ul className="menu">
           <li>
             <a
               href="#"
               className={activeLink === "Home" ? "active" : ""}
-              onClick={() => handleLinkClick("Home")}
+              onClick={() => setActiveLink("Home")}
             >
               Home
             </a>
           </li>
           <li>
+            <a href="/dashboardPage">DashBoard</a>
+          </li>
+          <li>
             <a
               href="#review"
-              className={activeLink === "About" ? "active" : ""}
-              onClick={() => handleLinkClick("About")}
+              className={activeLink === "Review" ? "active" : ""}
+              onClick={() => setActiveLink("Review")}
             >
               Review
             </a>
@@ -56,8 +69,8 @@ const Header = () => {
           <li>
             <a
               href="#map"
-              className={activeLink === "Contact" ? "active" : ""}
-              onClick={() => handleLinkClick("Contact")}
+              className={activeLink === "Map" ? "active" : ""}
+              onClick={() => setActiveLink("Map")}
             >
               Map
             </a>
@@ -65,24 +78,49 @@ const Header = () => {
           <li>
             <a
               href="#feedback"
-              className={activeLink === "feedback" ? "active" : ""}
-              onClick={() => handleLinkClick("feedback")}
+              className={activeLink === "FeedBack" ? "active" : ""}
+              onClick={() => setActiveLink("FeedBack")}
             >
               FeedBack
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              className={activeLink === "Login" ? "active" : ""}
-              onClick={() => handleLinkClick("Login")}
-            >
-              Log in
-            </a>
+            {isAuthenticated ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="logout-button-container"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleLogout}
+                  className="logout-button"
+                >
+                  Logout
+                </motion.button>
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="login-button-container"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleLoginRedirect}
+                  className="login-button"
+                >
+                  Login
+                </motion.button>
+              </motion.div>
+            )}
           </li>
         </ul>
       </div>
-      <SearchIcon />
     </>
   );
 };

@@ -3,11 +3,27 @@ import collegeData from "../model/collegeData.js";
 // Controller function for getting all colleges
 export const getcollege = async (req, res) => {
   try {
-    const college = await collegeData.find();
-    res.status(200).json(college);
+    const colleges = await collegeData.find();
+    res.status(200).json(colleges);
   } catch (error) {
     console.log("Error:", error);
     res.status(500).json(error);
+  }
+};
+
+// Controller function for searching colleges by course
+export const searchColleges = async (req, res) => {
+  const { course } = req.query; // Retrieve the course from query parameters
+
+  try {
+    const college = await collegeData.find({
+      [`courses.${course}`]: { $exists: true }, // Check if the course exists in the courses map
+    });
+
+    res.status(200).json(college);
+  } catch (error) {
+    console.log("Error during search:", error);
+    res.status(500).json({ message: "Internal server error", error });
   }
 };
 

@@ -94,7 +94,7 @@
   display: block;
   width: 50%;
   float: right;
-  height: 19em;
+  height: 22em;
   padding: 0.5rem 10%;
   background: rgb(10 10 10 / 60%);
   border-bottom: 2px solid rgba(19, 18, 18, 0.2);
@@ -191,6 +191,7 @@ ul li {
   --slide-height: 27rem;
   --slide-spacing: -9.9rem; /* Reduced to 0.1rem or even 0 to minimize the gap */
   --slide-size: 70%;
+  animation: appear 0.5s linear;
 }
 .embla__viewport {
   overflow: hidden;
@@ -278,6 +279,7 @@ ul li {
   text-align: center;
   background: linear-gradient(to right, #548c9f, #8a6b6b);
   box-sizing: border-box;
+  animation: appear 0.5s linear;
 }
 
 .head {
@@ -349,15 +351,10 @@ ul li {
 .search-container {
   margin: -41px 45px 0px 0px;
   transition: all 0.3s ease;
-  padding: 0px 0px 0px 0px;
-  float: right;
+  padding: 0px;
   display: flex;
-}
-
-.search-icon {
-  cursor: pointer;
-  padding: 5px 0 0 0.1rem;
-  z-index: 12;
+  position: relative; /* Ensure suggestions are contained within the search container */
+  float: right;
 }
 
 .search-input {
@@ -377,8 +374,40 @@ ul li {
 .search-container.expanded .search-input {
   width: 300px;
   opacity: 1;
-  height: fit-content;
   margin-right: 5px;
+}
+
+.search-icon {
+  cursor: pointer;
+  padding: 5px 0 0 0.1rem;
+  z-index: 12;
+}
+
+.suggestions-container {
+  position: absolute;
+  top: 100%; /* Position the suggestions below the input field */
+  left: 0;
+  width: 100%; /* Make sure it takes the full width of the input */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none; /* Remove top border so it blends smoothly */
+  z-index: 1000; /* Ensure suggestions appear above other content */
+  max-height: 150px; /* Set a maximum height */
+  overflow-y: auto; /* Enable scrolling if suggestions exceed max height */
+  box-sizing: border-box; /* Include padding and border in width */
+  margin-top: 0.2rem; /* Small margin between input and dropdown */
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+}
+
+.suggestion-item:hover,
+.suggestion-item.highlighted {
+  background-color: #f0f0f0;
 }
 
 .icon {
@@ -435,6 +464,76 @@ ul li {
   border: 2px solid rgba(255, 255, 255, 0.671); /* White border */
   background-color: transparent; /* No fill */
 }
+/* Color-changing text animation */
+/* Color-changing text animation */
+.colorful-text {
+  display: block;
+  width: max-content;
+  font-size: 1rem; /* Size of the text */
+  font-weight: bold;
+  color: transparent;
+  animation: colorChange 5s ease-in-out infinite,
+    slide-up 3s ease-in-out infinite;
+  position: relative;
+  background-image: linear-gradient(
+    90deg,
+    #ff6a00,
+    #ff9e00,
+    #ff007f,
+    #ff6a00
+  ); /* Initial gradient */
+  background-clip: text;
+  -webkit-background-clip: text; /* Ensures the gradient applies to the text */
+}
+
+/* Color change animation */
+@keyframes colorChange {
+  0% {
+    background-image: linear-gradient(
+      90deg,
+      #ff6a00,
+      #ff9e00,
+      #ff007f,
+      #ff6a00
+    );
+  }
+  25% {
+    background-image: linear-gradient(
+      90deg,
+      #00ff7f,
+      #007fff,
+      #ff00ff,
+      #00ff7f
+    );
+  }
+  50% {
+    background-image: linear-gradient(
+      90deg,
+      #ff007f,
+      #ff6a00,
+      #ff9e00,
+      #ff007f
+    );
+  }
+  75% {
+    background-image: linear-gradient(
+      90deg,
+      #ff00ff,
+      #007fff,
+      #00ff7f,
+      #ff00ff
+    );
+  }
+  100% {
+    background-image: linear-gradient(
+      90deg,
+      #ff6a00,
+      #ff9e00,
+      #ff007f,
+      #ff6a00
+    );
+  }
+}
 
 /* //////////////////////////////// hashtagnumber ////////////////////////////////////////// */
 .starburst {
@@ -476,6 +575,7 @@ ul li {
   margin: 30px 0px 0px 240px;
   z-index: 10;
   font-weight: bold;
+  animation: appear 0.6s linear;
 }
 /*/////////////////////////////////////////Like.css /////////////////////////////////////////*/
 /* like.css */
@@ -485,6 +585,7 @@ ul li {
   position: absolute;
   bottom: 20px;
   left: 20px;
+  animation: appear 0.5s linear;
 }
 
 .like-button {
@@ -493,10 +594,12 @@ ul li {
   cursor: pointer;
   font-size: 24px;
   color: #fff;
+  animation: appear 0.5s linear;
 }
 
 .like-icon.liked {
   color: red;
+  animation: appear 0.5s linear;
 }
 
 .like-count {
@@ -605,6 +708,9 @@ ul li {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0 cover 40%;
 }
 
 .labelline {
@@ -713,6 +819,9 @@ ul li {
   width: 70%;
   border: 3px solid green;
   padding: 5px;
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0 cover 40%;
 }
 /* //////////////////////////////////////////////////FeedBack CSS /////////////////////////////// */
 /* Basic container styling */
@@ -722,6 +831,9 @@ ul li {
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0 cover 40%;
 }
 
 .feedback-container h2 {
@@ -869,6 +981,41 @@ footer {
   border-radius: 20px;
   font-size: large;
 }
+/*//////////////////////////////////////signup ////////////////////////////////////////////////*/
+.floating-shape {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 0.2;
+  filter: blur(20px);
+}
+
+.floating-shape.small {
+  width: 50px;
+  height: 50px;
+}
+
+.floating-shape.medium {
+  width: 100px;
+  height: 100px;
+}
+
+.floating-shape.large {
+  width: 150px;
+  height: 150px;
+}
+
+.floating-shape.red {
+  background-color: #f87171; /* Tailwind red-400 */
+}
+
+.floating-shape.blue {
+  background-color: #60a5fa; /* Tailwind blue-400 */
+}
+
+.floating-shape.green {
+  background-color: #4ade80; /* Tailwind green-400 */
+}
+
 /* /////////////////////////////////////Mobile View /////////////////////////////////////////// */
 @media (min-width: 320px) and (max-width: 480px) {
   .header {
@@ -1074,5 +1221,743 @@ footer {
 @media (width < 1200px) {
   .review-container {
     gap: 3rem;
+  }
+}
+/*///////////////////////////// SignUpPage css /////////////////////////////////*/
+/* Container for the entire sign-up form */
+.sign-up-container {
+  max-width: 32rem; /* equivalent to max-w-md */
+  width: 100%;
+  background-color: rgba(31, 41, 55, 0.5); /* gray-800 bg-opacity-50 */
+  backdrop-filter: blur(10px); /* backdrop-blur-xl */
+  border-radius: 1rem; /* rounded-2xl */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-xl */
+  overflow: hidden;
+  margin: 10px auto;
+  padding: 2rem;
+}
+
+.sign-up-form {
+  padding: 2rem;
+}
+
+.sign-up-header {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  background: linear-gradient(
+    to right,
+    #68d391,
+    #34d399
+  ); /* from-green-400 to-emerald-500 */
+  background-clip: text;
+  color: transparent;
+}
+
+.error-text {
+  color: #f56565; /* red-500 */
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.submit-button {
+  margin-top: 1.25rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(
+    to right,
+    #48bb78,
+    #34d399
+  ); /* from-green-500 to-emerald-600 */
+  color: white;
+  font-weight: bold;
+  border-radius: 0.75rem; /* rounded-lg */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover {
+  background: linear-gradient(
+    to right,
+    #38a169,
+    #2f855a
+  ); /* hover:from-green-600 hover:to-emerald-700 */
+}
+
+.submit-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #38a169; /* focus:ring-green-500 */
+  background: linear-gradient(
+    to right,
+    #38a169,
+    #2f855a
+  ); /* focus:ring-offset-2 */
+}
+
+.loader {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Footer Section */
+.sign-up-footer {
+  padding: 1rem 2rem;
+  background-color: rgba(31, 41, 55, 0.5); /* gray-900 bg-opacity-50 */
+  display: flex;
+  justify-content: center;
+}
+
+.footer-text {
+  font-size: 0.875rem; /* text-sm */
+  color: #e2e8f0; /* gray-400 */
+}
+
+.footer-link {
+  color: #48bb78; /* green-400 */
+  text-decoration: underline;
+}
+
+.footer-link:hover {
+  color: #34d399; /* hover:underline */
+}
+/*///////////Input field css ///*/
+/* Wrapper for the input container */
+.input-container {
+  position: relative;
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+/* Icon positioning */
+.icon-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 0.75rem; /* pl-3 */
+  pointer-events: none;
+}
+
+/* Icon styling */
+.input-icon {
+  font-size: 1.25rem; /* size-5 */
+  color: #48bb78; /* green-500 */
+}
+
+/* Input field styling */
+.input-field {
+  width: 100%;
+  padding-left: 2.5rem; /* pl-10 */
+  padding-right: 0.75rem; /* pr-3 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem;
+  background-color: rgba(31, 41, 55, 0.5); /* gray-800 bg-opacity-50 */
+  border-radius: 0.75rem; /* rounded-lg */
+  border: 2px solid #4a5568; /* gray-700 */
+  color: white;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.input-field::placeholder {
+  color: #e2e8f0; /* gray-400 */
+}
+
+.input-field:focus {
+  border-color: #48bb78; /* green-500 */
+  outline: none;
+  box-shadow: 0 0 0 2px #38a169; /* focus:ring-2 focus:ring-green-500 */
+}
+
+/*//////////////password///////////////*/
+/* Password Criteria Styles */
+.password-criteria-container {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.password-criteria-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.check-icon,
+.x-icon {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.text-green {
+  color: #48bb78; /* green-500 */
+}
+
+.text-gray {
+  color: #e2e8f0; /* gray-400 */
+}
+
+/* Password Strength Meter Styles */
+.password-strength-container {
+  margin-top: 0.5rem;
+}
+
+.strength-text-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: #e2e8f0; /* gray-400 */
+}
+
+.strength-label,
+.strength-status {
+  font-size: 0.75rem;
+  color: #e2e8f0; /* gray-400 */
+}
+
+.strength-meter {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.strength-meter-bar {
+  height: 0.25rem;
+  width: 25%;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Strength Color Styles */
+.red {
+  background-color: #f56565; /* red-500 */
+}
+
+.orange {
+  background-color: #fbd38d; /* orange-400 */
+}
+
+.yellow {
+  background-color: #ecc94b; /* yellow-500 */
+}
+
+.lightyellow {
+  background-color: #faf089; /* yellow-100 */
+}
+
+.green {
+  background-color: #48bb78; /* green-500 */
+}
+
+.gray {
+  background-color: #e2e8f0; /* gray-400 */
+}
+/* LoginPage Styles */
+/* Parent container for centering the login container */
+.center-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 1rem;
+}
+
+.login-container {
+  max-width: 400px;
+  width: 100%;
+  background-color: rgba(31, 41, 55, 0.5); /* Gray-800 with opacity */
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.login-box {
+  padding: 2rem;
+}
+
+.login-header {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  background: linear-gradient(to right, #48bb78, #2d9e66);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.forgot-password {
+  margin-bottom: 1.5rem;
+}
+
+.forgot-password-link {
+  font-size: 0.875rem;
+  color: #48bb78; /* green-400 */
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #f56565; /* red-500 */
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.login-button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(to right, #48bb78, #2d9e66);
+  color: white;
+  font-weight: bold;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.login-button:hover {
+  background: linear-gradient(to right, #38a169, #2d9e66); /* Hover state */
+}
+
+.login-button:disabled {
+  background: #cbd5e0; /* gray-300 */
+  cursor: not-allowed;
+}
+
+.loader {
+  width: 24px;
+  height: 24px;
+  margin: 0 auto;
+  animation: spin 1s linear infinite;
+}
+
+/* Loader animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.signup-container {
+  padding: 1rem;
+  background-color: rgba(31, 41, 55, 0.5); /* Gray-900 with opacity */
+  display: flex;
+  justify-content: center;
+}
+
+.signup-text {
+  font-size: 0.875rem;
+  color: #e2e8f0; /* gray-400 */
+}
+
+.signup-link {
+  color: #48bb78; /* green-400 */
+  text-decoration: underline;
+}
+/* Full page container with gradient background */
+.loading-container {
+  min-height: 100vh; /* Full screen height */
+  background: linear-gradient(
+    to bottom right,
+    #1f2937,
+    #2f855a,
+    #34d399
+  ); /* Gradient from gray-900 to green-900 to emerald-900 */
+  display: flex;
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Spinner styles */
+.spinner {
+  width: 64px; /* 16 units of width (64px) */
+  height: 64px; /* 16 units of height (64px) */
+  border: 4px solid #68d391; /* Green color for the border */
+  border-top: 4px solid #48bb78; /* Darker green for the top border */
+  border-radius: 50%; /* Circular spinner */
+}
+/* General container for the dashboard */
+.dashboard-container {
+  max-width: 32rem; /* 512px */
+  width: 100%;
+  margin-top: 2.5rem; /* 10px */
+  padding: 2rem; /* 8px */
+  background-color: rgba(31, 41, 55, 0.8); /* bg-gray-900 with opacity */
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(55, 65, 81, 0.8); /* border-gray-800 */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Dashboard title */
+.dashboard-title {
+  font-size: 2rem; /* text-3xl */
+  font-weight: 700; /* font-bold */
+  margin-bottom: 1.5rem; /* mb-6 */
+  text-align: center;
+  background: linear-gradient(
+    to right,
+    #34d399,
+    #10b981
+  ); /* green to emerald */
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Main content area */
+.dashboard-content {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Card styling for profile and activity sections */
+.card {
+  padding: 1rem; /* p-4 */
+  background-color: rgba(31, 41, 55, 0.5); /* bg-gray-800 with opacity */
+  border-radius: 0.5rem;
+  border: 1px solid rgba(55, 65, 81, 0.8); /* border-gray-700 */
+}
+
+.card-title {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 600; /* font-semibold */
+  color: #34d399; /* text-green-400 */
+  margin-bottom: 1rem; /* mb-3 */
+}
+
+.card-text {
+  color: #e5e7eb; /* text-gray-300 */
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+/* Logout button styling */
+.logout-button {
+  width: 100%;
+  padding: 0.75rem 1rem; /* py-3 px-4 */
+  background: linear-gradient(
+    to right,
+    #d33434,
+    #b91010
+  ); /* bg-gradient-to-r */
+  color: white;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  outline: none;
+  border: none;
+}
+
+.logout-button:hover {
+  background: linear-gradient(to right, #c52222, #780404); /* hover effect */
+}
+
+.logout-button:focus {
+  outline: 2px solid #d33434; /* focus:ring-green-500 */
+  outline-offset: 2px;
+}
+
+.verify-bigcontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1f2937;
+  margin: 0;
+}
+
+.verify-container {
+  max-width: 400px;
+  width: 100%;
+  background-color: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+
+.verify-card {
+  padding: 20px;
+  background-color: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.verify-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(to right, #10b981, #34d399);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.verify-subtitle {
+  color: #d1d5db;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.verify-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.verify-input-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.verify-input-box {
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #374151;
+  color: white;
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+.verify-input-box:focus {
+  outline: none;
+  border-color: #10b981;
+}
+
+.verify-error-text {
+  color: #ef4444;
+  font-weight: 600;
+  text-align: center;
+}
+
+.verify-submit-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, #10b981, #059669);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.verify-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.verify-submit-button:hover {
+  background: linear-gradient(to right, #059669, #047857);
+}
+
+.verify-submit-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.5);
+}
+
+/* REVIEW CONTAINER */
+.container-review {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  padding: 5rem;
+
+  overflow: hidden; /* Prevent overflow */
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0 cover 40%;
+}
+
+/* Card Styling */
+.card__article {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.7); /* Semi-transparent with glass effect */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border for realism */
+  max-width: 800px; /* Restrict card width */
+  max-height: 400px; /* Restrict card height */
+  overflow: hidden; /* Ensure the card doesn't overflow */
+  margin-bottom: 10px;
+}
+
+.card__article:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Card Image */
+.card__image {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: 1.5rem 0;
+}
+
+.card__img {
+  width: 100px;
+  border-radius: 50%;
+  border: 3px solid white;
+  z-index: 1;
+}
+
+.card__shadow {
+  width: 150px;
+  height: 150px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  filter: blur(35px);
+  z-index: -1;
+}
+
+/* Card Text Content */
+.card__data {
+  padding: 0.1rem 2rem;
+  text-align: center;
+  max-height: 150px; /* Prevent excessive height */
+  overflow-y: auto; /* Enable scrolling for overflow */
+}
+
+.card__name {
+  text-align: center;
+  max-height: 150px; /* Prevent excessive height */
+  overflow-y: auto;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+  color: #333;
+}
+
+.card__description {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #555;
+  line-height: 1.5;
+  max-height: 100px; /* Restrict description height */
+  /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for clipped text */
+  word-wrap: break-word; /* Ensure long words don't break layout */
+}
+
+/* ANIMATIONS */
+.animate {
+  animation: fadeInUp 0.6s ease-in-out, subtlePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subtlePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* SWIPER BUTTONS */
+.swiper-button-prev,
+.swiper-button-next {
+  font-size: 2rem;
+  color: #333;
+}
+
+.swiper-pagination-bullet {
+  background: #bbb;
+  transition: transform 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+/* SWIPER SLIDE CONTAINER */
+.swiper-slide {
+  padding: 1rem; /* Add padding between slides */
+  overflow: visible; /* Allow hover effects */
+}
+
+.swiper-wrapper {
+  overflow: visible; /* Ensure Swiper container doesn't clip hover effects */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container-review {
+    height: auto;
+    padding: 2rem;
+  }
+
+  .card__article {
+    max-width: 90%;
+    margin: 1rem auto;
+  }
+
+  .card__description {
+    font-size: 0.9rem; /* Adjust text size for smaller screens */
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    scale: 0.5;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
   }
 }

@@ -14,7 +14,7 @@ const Info = ({ name, location, fees }) => {
         <div className="fee-section">
           <div className="fee">
             <p>Fee</p>
-            <p>(1 years ago)</p>
+            <p>(Updated 1 years ago)</p>
           </div>
           <div className="fee-values">
             {fees.map((fee, idx) => (
